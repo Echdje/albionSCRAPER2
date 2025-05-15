@@ -74,7 +74,7 @@ public class MainViewModel
         try
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "albionSCRAPERV2fa.Data.coscos.json";
+            var resourceName = "albionSCRAPERV2.Data.coscos.json";
 
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             var names = assembly.GetManifestResourceNames();

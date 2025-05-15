@@ -12,7 +12,6 @@ bin/
 obj/
 
 # MAUI build
-**/platforms/
 **/artifacts/
 
 # Pakiety
