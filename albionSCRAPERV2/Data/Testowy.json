@@ -1,0 +1,15 @@
+[
+{
+  "UniqueName": "T7_ARTEFACT_SHOES_LEATHER_AVALON",
+  "LocalizationNameVariable": "@ITEMS_T7_ARTEFACT_SHOES_LEATHER_AVALON",
+  "LocalizationDescriptionVariable": "@ITEMS_ARTEFACT_WEAPON_DESC",
+  "LocalizedNames": {
+    "PL-PL": "Wróżące Zamocowanie Wszechmistrza",
+    "EN-US": "Grandmaster's Augured Fasteners"
+  },
+  "LocalizedDescriptions": {
+    "PL-PL": "Fragment potężnej starożytnej broni...",
+    "EN-US": "Piece of an ancient and powerful weapon..."
+  }
+}
+  ]

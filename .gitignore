@@ -1,0 +1,30 @@
+# Systemowe
+.DS_Store
+
+# Rider / IDE
+.idea/
+.vscode/
+*.suo
+*.user
+
+# .NET build
+bin/
+obj/
+
+# MAUI build
+**/platforms/
+**/artifacts/
+
+# Pakiety
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Inne
+*.log
+*.tmp
+*.bak
+*.old
+*.swp
