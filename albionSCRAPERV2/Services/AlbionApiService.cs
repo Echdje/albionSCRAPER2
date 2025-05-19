@@ -1,3 +1,5 @@
+using albionSCRAPERV2.Models;
+
 namespace albionSCRAPERV2.Services;
 
 public class AlbionApiService
