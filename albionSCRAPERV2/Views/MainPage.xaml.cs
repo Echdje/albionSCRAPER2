@@ -1,4 +1,5 @@
-﻿using albionSCRAPERV2.ViewModels;
+﻿using albionSCRAPERV2.Services;
+using albionSCRAPERV2.ViewModels;
 using albionSCRAPERV2.ViewModels.Converters;
 using albionSCRAPERV2.Views;
 
@@ -13,6 +14,9 @@ public partial class MainPage : ContentPage
         vm.OnOpenSearchingItemsView = () => OpenSearchingItemsView();
 
         BindingContext = vm;
+        
+        MailNotificationService service = new MailNotificationService();
+        service.SendNotificationAsync("adi.stanisz@gmail.com", "test", "test");
     }
 
     private async void OpenSearchingItemsView()

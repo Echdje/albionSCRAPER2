@@ -2,6 +2,6 @@
   "SmtpServer": "smtp.gmail.com",
   "Port": 587,
   "EnableSsl": true,
-  "SenderEmail": "email@gmail.com",
-  "SenderPassword": "password"
+  "SenderEmail": "mail@gmail.com",
+  "SenderPassword": "mail"
 }

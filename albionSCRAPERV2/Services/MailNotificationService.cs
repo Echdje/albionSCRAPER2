@@ -11,25 +11,30 @@ public class MailNotificationService
 
     public MailNotificationService()
     {
-        _emailConfig = new EmailConfig();
+
+        _emailConfig = LoadEmailConfig();
     }
 
     private EmailConfig LoadEmailConfig()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "albionSCRAPER.Data.mailconfig.json";
-        
-        using Stream? stream  = assembly.GetManifestResourceStream(resourceName);
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "albionSCRAPERV2.Data.mailconfig.json";
 
-        if (stream == null)
-        {
-            throw new FileNotFoundException("Brak pliku konfiguracyjnego dla emaila. Sprawdz Data/");
-        }
-        
-        using var reader = new StreamReader(stream);
-        string json = reader.ReadToEnd();
-        
-        return JsonSerializer.Deserialize<EmailConfig>(json) ?? throw new InvalidOperationException("Nieprawidlowy format konfiguracji");
+            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+
+            if (stream == null)
+            {
+                throw new FileNotFoundException("Brak pliku konfiguracyjnego dla emaila. Sprawdz Data/");
+            }
+
+            using var reader = new StreamReader(stream);
+            string json = reader.ReadToEnd();
+
+            Console.WriteLine("mailconfig poprawnie zaladowany");
+            EmailConfig? config = JsonSerializer.Deserialize<EmailConfig>(json);
+
+            return config ?? throw new InvalidOperationException("nie udalo sie zdeserializowac");
+
     }
 
     public async Task SendNotificationAsync(string toEmail, string subject, string body)
