@@ -21,9 +21,7 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasKey(e => e.ItemId);
             entity.Property(e => e.UniqueName).IsRequired();
-            entity.Property(e => e.LocalizationNameVariable).IsRequired();
-            entity.Property(e => e.LocalizationDescriptionVariable).IsRequired();
-            entity.Property(e => e.LocalizedNames);
+            entity.Property(e => e.Name).IsRequired();
         });
 
         modelBuilder.Entity<TrackedItem>(entity =>

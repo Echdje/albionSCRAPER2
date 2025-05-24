@@ -9,29 +9,12 @@ namespace albionSCRAPERV2.Models;
 public class Item
 {
     [Key]
-    public string ItemId { get; set; } = string.Empty;
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ItemId { get; set; }
 
     public string UniqueName { get; set; } = string.Empty;
-    public string LocalizationNameVariable { get; set; } = string.Empty;
-    public string LocalizationDescriptionVariable { get; set; } = string.Empty;
 
-    // EF + SQLite nie wspierają Dictionary<> - musimy je serializować
-    public string LocalizedNamesJson { get; set; } = "{}";
-    public string LocalizedDescriptionsJson { get; set; } = "{}";
-
-    [NotMapped]
-    public Dictionary<string, string> LocalizedNames
-    {
-        get => JsonSerializer.Deserialize<Dictionary<string, string>>(LocalizedNamesJson) ?? new();
-        set => LocalizedNamesJson = JsonSerializer.Serialize(value);
-    }
-
-    [NotMapped]
-    public Dictionary<string, string> LocalizedDescriptions
-    {
-        get => JsonSerializer.Deserialize<Dictionary<string, string>>(LocalizedDescriptionsJson) ?? new();
-        set => LocalizedDescriptionsJson = JsonSerializer.Serialize(value);
-    }
+    public string Name { get; set; } = string.Empty;
 
     [NotMapped]
     public int Tier => ExtractTier(UniqueName);
@@ -51,17 +34,11 @@ public class Item
     [SetsRequiredMembers]
     public Item(
         string uniqueName,
-        string localizationNameVariable,
-        string localizationDescriptionVariable,
-        Dictionary<string, string> localizedNames,
-        Dictionary<string, string> localizedDescriptions)
+        string name)
     {
-        ItemId = uniqueName;
         UniqueName = uniqueName;
-        LocalizationNameVariable = localizationNameVariable;
-        LocalizationDescriptionVariable = localizationDescriptionVariable;
-        LocalizedNames = localizedNames;
-        LocalizedDescriptions = localizedDescriptions;
+        Name = name;
+        
     }
 
     private int ExtractTier(string uniqueName)
