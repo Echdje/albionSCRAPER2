@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows.Input;
 using albionSCRAPERV2.Models;
+using albionSCRAPERV2.Services;
 
 namespace albionSCRAPERV2.ViewModels;
 
@@ -19,6 +20,7 @@ public class MainViewModel
     public ICommand LoadNextItemCommand { get; }
     public ICommand SearchingItemsCommand { get; }
     
+    private readonly ItemDataLoader itemDataLoader = new();
     public Action? OnOpenSearchingItemsView { get; set; }
 
     private string? selectedCategory;
@@ -63,59 +65,35 @@ public class MainViewModel
 
     public MainViewModel()
     {
-        LoadDataFromEmbeddedJson();
+        _ = LoadDataFromEmbeddedJson();
         LoadNextItemCommand = new Command(LoadNextItem);
         SearchingItemsCommand = new Command(SearchingItems);
 
     }
 
-    private void LoadDataFromEmbeddedJson()
+    private async Task LoadDataFromEmbeddedJson()
     {
         try
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "albionSCRAPERV2.Data.coscos.json";
-
-            using Stream stream = assembly.GetManifestResourceStream(resourceName);
-            var names = assembly.GetManifestResourceNames();
-            foreach (var name in names)
+            var items = await itemDataLoader.LoadItemsAsync();
+        
+            AllItems.Clear();
+            foreach (var item in items)
             {
-                Console.WriteLine("Zasob:" + name);
-            }
-
-            if (stream == null) return;
-
-
-            using var reader = new StreamReader(stream);
-            string json = reader.ReadToEnd();
-
-            var items = JsonSerializer.Deserialize<List<Item>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    if (!string.IsNullOrWhiteSpace(item.UniqueName) && item.UniqueName.StartsWith("T"))
-                        AllItems.Add(item);
-                }
+                AllItems.Add(item);
             }
 
             Categories.Clear();
             foreach (var cat in AllItems.Select(i => i.Category).Distinct().OrderBy(c => c))
-            {
                 Categories.Add(cat);
-                
-                Factions.Clear();
-                foreach (var faction in AllItems.Select(i => i.Faction).Distinct().OrderBy(f => f))
-                    Factions.Add(faction);
 
-                FilterItems();
-            }
+            Factions.Clear();
+            foreach (var faction in AllItems.Select(i => i.Faction).Distinct().OrderBy(f => f))
+                Factions.Add(faction);
+
+            FilterItems();
+
             Console.WriteLine("Wczytano rekordów: " + AllItems.Count);
-            
         }
         catch (Exception ex)
         {

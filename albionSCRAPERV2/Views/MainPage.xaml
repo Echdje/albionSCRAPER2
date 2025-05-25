@@ -80,7 +80,7 @@
                   HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding LocalizedNames[PL-PL]}"
+                    <TextCell Text="{Binding Name}"
                               Detail="{Binding UniqueName}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
