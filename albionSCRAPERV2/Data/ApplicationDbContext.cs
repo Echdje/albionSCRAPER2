@@ -5,12 +5,13 @@ namespace albionSCRAPERV2.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<Item> Items { get; set; }
+    public DbSet<Item> Items { get; set; } = null!;
     public DbSet<TrackedItem> TrackedItems { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,5 +37,10 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(e => e.ItemId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        // Configure unique index on UniqueName
+        modelBuilder.Entity<Item>()
+            .HasIndex(i => i.UniqueName)
+            .IsUnique();
     }
 } 

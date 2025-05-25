@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using albionSCRAPERV2.Data;
+using albionSCRAPERV2.Services;
 
 namespace albionSCRAPERV2;
 
@@ -19,6 +21,31 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        return builder.Build();
+        // Configure database
+        builder.Services.ConfigureDatabase();
+        
+        // Register ItemImporter service
+        builder.Services.AddScoped<ItemImporter>();
+
+        var app = builder.Build();
+
+        // Run database initialization and data import
+        using (var scope = app.Services.CreateScope())
+        {
+            var importer = scope.ServiceProvider.GetRequiredService<ItemImporter>();
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await importer.ImportAsync();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error importing items: {ex}");
+                }
+            }).Wait();
+        }
+
+        return app;
     }
 }

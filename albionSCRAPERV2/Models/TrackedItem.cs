@@ -5,7 +5,7 @@ namespace albionSCRAPERV2.Models;
 public class TrackedItem
 {
     public int Id { get; set; }
-    public string ItemId { get; set; } = null!;
+    public int ItemId { get; set; }
     public string Location { get; set; } = string.Empty;
     public int Quality { get; set; }
 

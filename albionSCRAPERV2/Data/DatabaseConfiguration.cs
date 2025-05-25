@@ -1,16 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using albionSCRAPERV2.Services;
 
 namespace albionSCRAPERV2.Data;
 
 public static class DatabaseConfiguration
 {
-    public static IServiceCollection AddDatabaseServices(this IServiceCollection services)
+    public static string DbPath => Path.Combine(
+        FileSystem.AppDataDirectory,
+        "albionItems.db");
+
+    public static IServiceCollection ConfigureDatabase(this IServiceCollection services)
     {
-        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "albion_items.db");
-        
+        System.Diagnostics.Debug.WriteLine($"[DatabaseConfiguration] SQLite DB Path: {DbPath}");
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite($"Data Source={dbPath}"));
+            options.UseSqlite($"Data Source={DbPath}"));
 
         services.AddScoped<DatabaseService>();
 

@@ -12,9 +12,13 @@ public class Item
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ItemId { get; set; }
 
+    [Required]
     public string UniqueName { get; set; } = string.Empty;
 
+    [Required]
     public string Name { get; set; } = string.Empty;
+
+    public string DescriptionEN { get; set; } = string.Empty;
 
     [NotMapped]
     public int Tier => ExtractTier(UniqueName);
@@ -28,17 +32,18 @@ public class Item
     [NotMapped]
     public string Faction => ExtractFaction(UniqueName);
 
-    // EF wymaga konstruktora bezparametrowego
+    // EF requires a parameterless constructor
     public Item() {}
 
     [SetsRequiredMembers]
     public Item(
         string uniqueName,
-        string name)
+        string name,
+        string descriptionEN = "")
     {
         UniqueName = uniqueName;
         Name = name;
-        
+        DescriptionEN = descriptionEN;
     }
 
     private int ExtractTier(string uniqueName)
